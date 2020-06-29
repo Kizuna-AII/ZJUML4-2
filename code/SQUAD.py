@@ -7,7 +7,7 @@ import tqdm
 import os
 from transformers.data.processors.squad import SquadV2Processor
 
-def evaluate(model, tokenizer, device):
+def evaluate(model, tokenizer, device, maxSequenceLength, maxQueryLength, documentStride):
     processor = SquadV2Processor()
     devData = processor.get_dev_examples(".")
     features, devDataset= transformers.squad_convert_examples_to_features(
@@ -104,5 +104,5 @@ if __name__ == "__main__" :
             scheduler.step()
             model.zero_grad()
             globalStep += 1
-            results = evaluate(model, tokenizer, device)
+            results = evaluate(model, tokenizer, device, maxSequenceLength, maxQueryLength, documentStride)
     averageTrainingLoss = trainingLoss / globalStep
